@@ -11,7 +11,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "tbl_student")
+@Table(
+        name = "tbl_student",
+        // require email address to be unique
+        uniqueConstraints = @UniqueConstraint(
+                name = "emailid_unique",
+                columnNames = "email_address"
+        )
+)
 public class Student {
     @Id
     @SequenceGenerator(
@@ -27,7 +34,12 @@ public class Student {
     private String firstName;
     private String lastName;
 
-    @Column(name = "email_address")
+    @Column(
+            name = "email_address",
+            // require email address to be not null
+            nullable = false
+    )
+    // want this to be unique and not null
     private String emailId;
     private String guardianName;
     private String guardianEmail;
