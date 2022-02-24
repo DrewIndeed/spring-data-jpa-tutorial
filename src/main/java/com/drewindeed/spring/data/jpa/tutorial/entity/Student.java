@@ -2,10 +2,7 @@ package com.drewindeed.spring.data.jpa.tutorial.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,6 +14,15 @@ import javax.persistence.Table;
 @Table(name = "tbl_student")
 public class Student {
     @Id
+    @SequenceGenerator(
+            name = "student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
     private Long studentId;
     private String firstName;
     private String lastName;
