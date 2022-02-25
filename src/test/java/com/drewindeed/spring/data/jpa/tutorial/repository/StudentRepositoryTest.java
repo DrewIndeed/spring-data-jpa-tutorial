@@ -66,4 +66,16 @@ class StudentRepositoryTest {
         List<Student> studentsByFirstNameContainingList = studentRepository.findByFirstNameContaining("An");
         System.out.println("studentsByFirstNameContainingList = " + studentsByFirstNameContainingList);
     }
+
+    @Test
+    public void printStudentByEmailAddress() {
+        Student student = studentRepository.getStudentByEmailAddress("truongan@gmail.com");
+        System.out.println("student = " + student);
+    }
+
+    @Test
+    public void printStudentFirstNameByEmailAddress() {
+        String studentFirstName = studentRepository.getStudentFirstNameByEmailAddress("truongan@gmail.com");
+        System.out.println("studentFirstName = " + studentFirstName);
+    }
 }
