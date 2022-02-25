@@ -41,7 +41,7 @@ public class Student {
     )
     // want this to be unique and not null
     private String emailId;
-    private String guardianName;
-    private String guardianEmail;
-    private String guardianMobile;
+
+    @Embedded
+    private Guardian guardian;
 }
