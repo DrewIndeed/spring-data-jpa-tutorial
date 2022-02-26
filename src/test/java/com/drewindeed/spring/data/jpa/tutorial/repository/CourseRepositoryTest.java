@@ -5,6 +5,8 @@ import com.drewindeed.spring.data.jpa.tutorial.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -36,5 +38,34 @@ class CourseRepositoryTest {
                 .build();
 
         courseRepository.save(course);
+    }
+
+    @Test
+    public void findAllPagination() {
+        // pageable objects
+        Pageable firstPageWithOneRecords = PageRequest.of(0, 1);
+        Pageable secondPageWithThreeRecords = PageRequest.of(1, 3);
+
+        // courses lists
+        List<Course> courseListFirst = courseRepository.findAll(firstPageWithOneRecords).getContent();
+        List<Course> courseListSecond = courseRepository.findAll(secondPageWithThreeRecords).getContent();
+
+        // total elements number
+        long totalElementsFirst = courseRepository.findAll(firstPageWithOneRecords).getTotalElements();
+        long totalElementsSecond = courseRepository.findAll(secondPageWithThreeRecords).getTotalElements();
+
+        // total pages number
+        long totalPagesFirst = courseRepository.findAll(firstPageWithOneRecords).getTotalPages();
+        long totalPagesSecond = courseRepository.findAll(secondPageWithThreeRecords).getTotalPages();
+
+        // print
+        System.out.println("First Page");
+        System.out.println(courseListFirst);
+        System.out.println(totalElementsFirst);
+        System.out.println(totalPagesFirst);
+        System.out.println("Second Page");
+        System.out.println(courseListSecond);
+        System.out.println(totalElementsSecond);
+        System.out.println(totalPagesSecond);
     }
 }
