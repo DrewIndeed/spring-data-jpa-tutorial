@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -67,5 +68,24 @@ class CourseRepositoryTest {
         System.out.println(courseListSecond);
         System.out.println(totalElementsSecond);
         System.out.println(totalPagesSecond);
+    }
+
+    @Test
+    public void findAllSorting() {
+        // pageable objects
+        Pageable sortByTitle = PageRequest.of(0, 2, Sort.by("title"));
+        Pageable sortByCreditDesc = PageRequest.of(0, 2, Sort.by("credit").descending());
+        Pageable sortByTitleAndCreditDesc = PageRequest.of(0, 2,
+                Sort.by("title").descending().and(Sort.by("credit")));
+
+        // get list of course based on sorting objects
+        List<Course> courseSortFirst = courseRepository.findAll(sortByTitle).getContent();
+        List<Course> courseSortSecond = courseRepository.findAll(sortByCreditDesc).getContent();
+        List<Course> courseSortThird = courseRepository.findAll(sortByTitleAndCreditDesc).getContent();
+
+        // printing
+        System.out.println(courseSortFirst);
+        System.out.println(courseSortSecond);
+        System.out.println(courseSortThird);
     }
 }
