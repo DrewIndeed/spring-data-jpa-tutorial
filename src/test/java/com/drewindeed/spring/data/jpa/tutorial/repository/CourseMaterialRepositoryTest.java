@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 class CourseMaterialRepositoryTest {
 
@@ -29,5 +31,11 @@ class CourseMaterialRepositoryTest {
         // ERROR: this should not work if course has not been saved
         // -> Need CASCADING
         materialRepository.save(courseMaterial);
+    }
+
+    @Test
+    public void printAllCourseMaterials() {
+        List<CourseMaterial> materialList = materialRepository.findAll();
+        System.out.println("materialList = " + materialList);
     }
 }
