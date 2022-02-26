@@ -1,11 +1,11 @@
 package com.drewindeed.spring.data.jpa.tutorial.repository;
 
 import com.drewindeed.spring.data.jpa.tutorial.entity.Course;
+import com.drewindeed.spring.data.jpa.tutorial.entity.Student;
 import com.drewindeed.spring.data.jpa.tutorial.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -95,5 +95,41 @@ class CourseRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
         List<Course> courseList = courseRepository.findByTitleContaining("D", pageable).getContent();
         System.out.println("courseList = " + courseList);
+    }
+
+    @Test
+    public void saveCourseWithStudentAndTeacher() {
+        // teacher instance
+        Teacher teacher = Teacher.builder()
+                .firstName("Osama")
+                .lastName("Bin Laden")
+                .build();
+
+        // student instances
+        Student student1 = Student.builder()
+                .firstName("Lil")
+                .lastName("Uzi Vert")
+                .emailId("hiphop@gmail.com")
+                .build();
+
+        Student student2 = Student.builder()
+                .firstName("Lil")
+                .lastName("Keen")
+                .emailId("hipskr@gmail.com")
+                .build();
+
+        // course instance
+        Course course = Course.builder()
+                .title("AI")
+                .credit(12)
+                .teacher(teacher)
+                .build();
+
+        // add students to student list of course
+        course.addStudents(student1);
+        course.addStudents(student2);
+
+        // save course to database
+        courseRepository.save(course);
     }
 }

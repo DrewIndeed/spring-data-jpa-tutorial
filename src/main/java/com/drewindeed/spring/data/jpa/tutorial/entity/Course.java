@@ -3,6 +3,8 @@ package com.drewindeed.spring.data.jpa.tutorial.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,4 +42,29 @@ public class Course {
             referencedColumnName = "teacherId"
     )
     private Teacher teacher;
+
+    // Many-to-many relationship with Student
+    @ManyToMany(
+            cascade = CascadeType.ALL
+    )
+    // DONT FORGET CASCADING!
+    @JoinTable(
+            name = "student_course_map",
+            joinColumns = @JoinColumn(
+                    name = "course_id",
+                    referencedColumnName = "courseId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "student_id",
+                    referencedColumnName = "studentId"
+            )
+    )
+    @ToString.Exclude
+    private List<Student> students;
+
+    // add student method to add student to students list of a course
+    public void addStudents(Student student) {
+        if (students == null) students = new ArrayList<>();
+        students.add(student);
+    }
 }
