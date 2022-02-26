@@ -25,4 +25,10 @@ public class Course {
     private Long courseId;
     private String title;
     private Integer credit;
+
+    // From Uni to Bi directional here
+    @OneToOne(
+            mappedBy = "course" // 'course' is the name of the attribute on CourseMaterial class
+    )
+    private CourseMaterial courseMaterial;
 }
